@@ -5,7 +5,6 @@ PREFIX            := /usr/local
 
 CHROMIUM_NAME     := chromium$(CHROMIUM_SUFFIX)
 CHROMIUM_BIN      := /usr/lib/$(CHROMIUM_NAME)/$(CHROMIUM_NAME)
-PEPPER_FLASH_DIR  := /usr/lib/PepperFlash
 
 LAUNCHER_LIBDIR   := $(PREFIX)/lib/$(CHROMIUM_NAME)-launcher
 LAUNCHER_ERRMSG   := $(LAUNCHER_LIBDIR)/launcher-errmsg
@@ -27,7 +26,6 @@ chromium-launcher: chromium-launcher.in
 	sed \
 		-e "s|@CHROMIUM_NAME@|$(CHROMIUM_NAME)|g" \
 		-e "s|@CHROMIUM_BIN@|$(CHROMIUM_BIN)|g" \
-		-e "s|@PEPPER_FLASH_DIR@|$(PEPPER_FLASH_DIR)|g" \
 		-e "s|@LAUNCHER_ERRMSG@|$(LAUNCHER_ERRMSG)|g" \
 		$< >$@
 

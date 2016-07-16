@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-# Simple Chromium launcher with support for Pepper Flash
+# Simple Chromium launcher without support for Pepper Flash
 #
 # Some rudimentary support for user flags is provided via a @CHROMIUM_NAME@-flags.conf
 # config file placed in $HOME/.config/ (or $XDG_CONFIG_HOME). Arguments are
@@ -16,35 +16,6 @@ use JSON::PP qw( decode_json );
 use File::BaseDir qw( config_home );
 use Text::ParseWords qw ( shellwords );
 
-my %PEPPER_FLASH = (
-	manifest => '@PEPPER_FLASH_DIR@/manifest.json',
-	plugin => '@PEPPER_FLASH_DIR@/libpepflashplayer.so',
-);
-
-sub get_flash_version {
-	open my $manifest, '<', $PEPPER_FLASH{manifest} or return;
-
-	my $json;
-
-	eval {
-		$json = decode_json do { local $/; <$manifest> };
-	};
-
-	return $json->{version} if $json;
-}
-
-sub get_flash_flags {
-	my $flash_version = get_flash_version() // '';
-	my @flash_flags;
-
-	if ($flash_version =~ /^[\d.]+$/ and -f $PEPPER_FLASH{plugin}) {
-		@flash_flags = (
-			"--ppapi-flash-path=$PEPPER_FLASH{plugin}",
-			"--ppapi-flash-version=$flash_version");
-	}
-
-	return @flash_flags;
-}
 
 sub get_user_flags {
 	my $conf_path = config_home '@CHROMIUM_NAME@-flags.conf';
@@ -69,4 +40,4 @@ sub get_user_flags {
 $ENV{CHROME_WRAPPER} = abs_path($0);
 $ENV{CHROME_DESKTOP} = '@CHROMIUM_NAME@.desktop';
 
-exec '@CHROMIUM_BIN@', get_flash_flags, get_user_flags, @ARGV;
+exec '@CHROMIUM_BIN@', get_user_flags, @ARGV;

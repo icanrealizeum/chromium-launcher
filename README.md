@@ -1,6 +1,6 @@
 # chromium-launcher
 
-A simple Chromium launcher with support for Pepper Flash.
+A simple Chromium launcher without support for Pepper Flash.
 
 ## Requirements
 
@@ -19,3 +19,6 @@ the Chromium binary.
 ## License
 
 This project is licensed under ISC.
+
+Any modifications made by @icanrealizeum are released under UNLICENSE and/or CC0
+
